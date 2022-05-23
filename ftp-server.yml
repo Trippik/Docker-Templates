@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  ftp_server:
+    image: stilliard/pure-ftpd
+    ports:
+      - '30000-30009:30000-30009'
+      - "21:21"
+    volumes:
+      - ftp_data:/volume
+    environment:
+      FTP_USER_NAME: ${FTPUser}
+      FTP_USER_PASS: ${FTPPass}
+      FTP_USER_HOME: /volume
+      PUBLICHOST: ${Externalip}
+
+volumes:
+  ftp_data: {}
