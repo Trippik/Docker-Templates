@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  OpenProjects:
+    image: openproject/community:12
+    volumes:
+      - op-pgdata:/var/openproject/pgdata
+      - op-assets:/var/openproject/assets
+    ports:
+      - 8080:80
+    environment:
+      SERVER_HOSTNAME: ${ServerHostname}
+      SECRET_KEY_BASE: ${SecretKey}
+
+volumes:
+  op-pgdata: {}
+  op-assets: {}
