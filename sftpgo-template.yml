@@ -1,0 +1,17 @@
+version: '3.9'
+
+
+services:
+  sftp:
+    image: drakkan/sftpgo
+    volumes:
+        - sftpgo-data:/srv/sftpgo
+        - sftpgo-config:/var/lib/sftpgo
+        
+    ports:
+        - 2022:2022
+        - 8080:8080
+    
+volumes:
+  sftpgo-data: {}
+  sftpgo-config: {}
