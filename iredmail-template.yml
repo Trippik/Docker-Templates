@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  iredmail:
+    image: iredmail/mariadb:stable
+    volumes:
+      - backup-mysql:/var/vmail/backup/mysql 
+      - mailboxes:/var/vmail/vmail1 
+      - mlmmj:/var/vmail/mlmmj 
+      - mlmmj-archive:/var/vmail/mlmmj-archive 
+      - imapsieve_copy:/var/vmail/imapsieve_copy 
+      - custom:/opt/iredmail/custom 
+      - ssl:/opt/iredmail/ssl 
+      - mysql:/var/lib/mysql 
+      - clamav:/var/lib/clamav 
+      - sa_rules:/var/lib/spamassassin 
+      - postfix_queue:/var/spool/postfix  
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+      - 110:110
+      - 995:995
+      - 143:143
+      - 993:993
+      - 25:25 
+      - 465:465 
+      - 587:587
+    environment:
+      HOSTNAME: mail.mydomain.com
+      FIRST_MAIL_DOMAIN: mydomain.com
+      FIRST_MAIL_DOMAIN_ADMIN_PASSWORD: my-secret-password
+      MLMMJADMIN_API_TOKEN: $(openssl rand -base64 32)
+      ROUNDCUBE_DES_KEY: $(openssl rand -base64 24)
+
+volumes:
+  backup-mysql: {} 
+  mailboxes: {} 
+  mlmmj: {} 
+  mlmmj-archive: {} 
+  imapsieve_copy: {} 
+  custom: {} 
+  ssl: {} 
+  mysql: {} 
+  clamav: {} 
+  sa_rules: {} 
+  postfix_queue: {}
