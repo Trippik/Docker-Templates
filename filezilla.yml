@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  filezilla:
+    image: jlesage/filezilla:latest
+    ports:
+      - '5800:5800'
+    volumes:
+      - filezilla_data:/storage
+      - filezilla_config:/config
+    environment:
+      VNC_PASSWORD: ${VNCPassword}
+
+volumes:
+  filezilla_data: {}
+  filezilla_config: {}
