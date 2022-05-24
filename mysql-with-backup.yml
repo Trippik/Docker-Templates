@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: db
+    image: mysql:latest
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DBRootPassword}
+      - MYSQL_DATABASE=${DBSchema}
+      - MYSQL_USER=${DBUser}
+      - MYSQL_PASSWORD=${DBUserPassword}
+    restart: always
+
+  db-backup:
+    container_name: db-backup
+    image: tiredofit/db-backup
+    links:
+     - db
+    volumes:
+      - backups:/backup
+    environment:
+      - DB_TYPE=mysql
+      - DB_HOST=db
+      - DB_NAME=${DBSchema}
+      - DB_USER=${DBUser}
+      - DB_PASS=${DBUserPassword}
+      - DB_DUMP_FREQ=1440
+      - DB_DUMP_BEGIN=0000
+      - DB_CLEANUP_TIME=8640
+      - CHECKSUM=SHA1
+      - COMPRESSION=ZSTD
+      - SPLIT_DB=FALSE
+    restart: always
+
+volumes:
+  db-data: {}
+  backups: {}
