@@ -26,6 +26,7 @@ services:
       MYSQL_USER: ${DBUser}
       MYSQL_PASSWORD: ${DBUserPassword}
       MYSQL_HOST: nextcloud_db
+      NEXTCLOUD_TRUSTED_DOMAINS: ${TrustedDomains}
       TRUSTED_PROXIES: ${TrustedProxies}
       
 volumes:
