@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  nextcloud_db:
+    image: mysql:latest
+    volumes:
+      - nextcloud_db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DBPassword}
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: ${DBUser}
+      MYSQL_PASSWORD: ${DBUserPassword}
+
+  nextcloud_server:
+    links:
+      - nextcloud_db
+    image: nextcloud:latest
+    ports:
+      - '8080:80'
+      - '8443:443'
+    volumes:
+      - nextcloud:/var/www/html
+    environment:
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: ${DBUser}
+      MYSQL_PASSWORD: ${DBUserPassword}
+      MYSQL_HOST: nextcloud_db
+      TRUSTED_PROXIES: ${TrustedProxies}
+      
+volumes:
+  nextcloud_db_data: {}
+  nextcloud: {}
